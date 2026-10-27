@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sudoku Fish Practice</title>
+<style>
+:root {
+  --bg: #fbfbf9;
+  --fg: #1d2330;
+  --muted: #5d6677;
+  --line: #d8dbe2;
+  --accent: #1f6feb;
+  --accent-fg: #ffffff;
+  --card: #ffffff;
+  --warn: #9a5b00;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14171d;
+    --fg: #e6e9ef;
+    --muted: #9aa3b2;
+    --line: #2d333f;
+    --accent: #5b9dff;
+    --accent-fg: #0b1220;
+    --card: #1b1f27;
+    --warn: #e0a54a;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+h1 { font-size: 1.6rem; margin: 0 0 4px; }
+p.lead { color: var(--muted); margin: 0 0 20px; }
+section {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+h2 { font-size: 1.05rem; margin: 0 0 12px; }
+table { border-collapse: collapse; width: 100%; }
+th, td { padding: 8px 6px; text-align: center; border-bottom: 1px solid var(--line); }
+th:first-child, td:first-child { text-align: left; }
+tr:last-child td { border-bottom: 0; }
+label.cell { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; padding: 6px 10px; }
+.tag { font-size: 0.75rem; color: var(--muted); }
+.tag.rare { color: var(--warn); }
+.row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+input[type=number] {
+  width: 90px;
+  padding: 8px;
+  font: inherit;
+  color: inherit;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--accent); }
+button {
+  font: inherit;
+  padding: 9px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--fg);
+  cursor: pointer;
+}
+button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+button:disabled { opacity: 0.5; cursor: default; }
+.bars { display: grid; gap: 6px; }
+.bar { display: grid; grid-template-columns: 11em 1fr 4.5em; gap: 8px; align-items: center; font-size: 0.9rem; }
+.track { height: 10px; background: var(--line); border-radius: 5px; overflow: hidden; }
+.fill { height: 100%; width: 0; background: var(--accent); }
+.status { color: var(--muted); font-size: 0.9rem; margin-top: 10px; }
+.note { color: var(--muted); font-size: 0.85rem; }
+.error { color: var(--warn); }
+@media (max-width: 520px) {
+  .bar { grid-template-columns: 8em 1fr 4em; }
+  th, td { padding: 6px 2px; }
+}
+</style>
+</head>
+<body>
+<main>
+  <h1>Sudoku Fish Practice</h1>
+  <p class="lead">Generates puzzles in your browser where the first technique beyond singles, locked candidates and subsets is the fish you pick. Runs the HoDoKu generator and solver locally; nothing is uploaded.</p>
+
+  <section>
+    <h2>Fish to practise</h2>
+    <table id="grid"></table>
+    <div class="row" style="margin-top:12px">
+      <button id="all" type="button">Select all</button>
+      <button id="none" type="button">Clear</button>
+    </div>
+    <p class="note">Rarer fish can take minutes. Mutant fish without fins are almost never the first step, so expect to stop early.</p>
+  </section>
+
+  <section>
+    <h2>Export</h2>
+    <div class="row">
+      <label>Puzzles <input id="count" type="number" min="1" max="500" value="20"></label>
+      <label class="cell"><input id="withAnswers" type="checkbox"> Include fish name and solution</label>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <button id="start" class="primary" type="button">Generate</button>
+      <button id="stop" type="button" disabled>Stop</button>
+      <button id="download" type="button" disabled>Download .txt</button>
+    </div>
+    <div class="status" id="status"></div>
+    <div class="bars" id="bars" style="margin-top:12px"></div>
+  </section>
+
+  <p class="note">Built from <a href="https://hodoku.sourceforge.net/">HoDoKu</a> 2.2.0 by Bernhard Hobiger (GPLv3), compiled to WebAssembly with <a href="https://teavm.org/">TeaVM</a>. Source and build scripts are in this repository.</p>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
