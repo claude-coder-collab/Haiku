@@ -14,8 +14,15 @@ const VARIANTS = [
   { prefix: 'FINNED_MUTANT_', label: 'Finned Mutant', rarity: { X_WING: 'very rare', SWORDFISH: 'very rare', JELLYFISH: 'rare' } }
 ];
 
+const WINGS = [
+  { key: 'XY_WING', label: 'XY-Wing' },
+  { key: 'XYZ_WING', label: 'XYZ-Wing' },
+  { key: 'W_WING', label: 'W-Wing' }
+];
+
 const typeName = (variant, size) => variant.label + ' ' + size.label;
 const grid = document.getElementById('grid');
+const wingGrid = document.getElementById('wings');
 const bars = document.getElementById('bars');
 const statusEl = document.getElementById('status');
 const startBtn = document.getElementById('start');
@@ -57,7 +64,23 @@ for (const variant of VARIANTS) {
   grid.appendChild(tr);
 }
 
-const boxes = () => Array.from(grid.querySelectorAll('input[type=checkbox]'));
+const wingRow = document.createElement('tr');
+for (const wing of WINGS) {
+  const td = document.createElement('td');
+  const label = document.createElement('label');
+  label.className = 'cell';
+  const box = document.createElement('input');
+  box.type = 'checkbox';
+  box.dataset.type = wing.key;
+  box.dataset.name = wing.label;
+  label.appendChild(box);
+  label.appendChild(document.createTextNode(wing.label));
+  td.appendChild(label);
+  wingRow.appendChild(td);
+}
+wingGrid.appendChild(wingRow);
+
+const boxes = () => Array.from(document.querySelectorAll('table input[type=checkbox]'));
 document.getElementById('all').onclick = () => boxes().forEach(b => (b.checked = true));
 document.getElementById('none').onclick = () => boxes().forEach(b => (b.checked = false));
 
@@ -129,7 +152,7 @@ startBtn.onclick = () => {
   const selected = boxes().filter(b => b.checked);
   const total = Math.max(1, Math.min(500, parseInt(countInput.value, 10) || 1));
   if (selected.length === 0) {
-    statusEl.innerHTML = '<span class="error">Select at least one fish.</span>';
+    statusEl.innerHTML = '<span class="error">Select at least one technique.</span>';
     return;
   }
   quotas = {};
