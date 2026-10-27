@@ -2,7 +2,7 @@
 
 Static page in `docs/` that generates Sudoku puzzles whose first advanced step is a chosen fish (X-Wing, Swordfish, Jellyfish; basic, finned, sashimi, Franken, finned Franken, mutant, finned mutant) and exports them as a text file.
 
-Enable GitHub Pages with source `docs/` on the branch you publish from.
+Live page: https://claude-coder-collab.github.io/Haiku/
 
 ## How it works
 
