@@ -1,12 +1,12 @@
 # Haiku: Sudoku fish practice
 
-Static page in `docs/` that generates Sudoku puzzles whose first advanced step is a chosen fish (X-Wing, Swordfish, Jellyfish; basic, finned, sashimi, Franken, finned Franken, mutant, finned mutant) and exports them as a text file.
+Static page in `docs/` that generates Sudoku puzzles whose first advanced step is a chosen fish (X-Wing, Swordfish, Jellyfish; basic, finned, sashimi, Franken, finned Franken, mutant, finned mutant) or wing (XY-Wing, XYZ-Wing, W-Wing) and exports them as a text file.
 
 Live page: https://claude-coder-collab.github.io/Haiku/
 
 ## How it works
 
-The generator and solver are HoDoKu 2.2.0 (https://hodoku.sourceforge.net/, GPLv3), compiled to WebAssembly GC with TeaVM. The page runs a pool of web workers that generate puzzles and keep those whose first fish step matches a selected type.
+The generator and solver are HoDoKu 2.2.0 (https://hodoku.sourceforge.net/, GPLv3), compiled to WebAssembly GC with TeaVM. The page runs a pool of web workers that generate puzzles and keep those whose first fish or wing step matches a selected type.
 
 ## Rebuilding
 

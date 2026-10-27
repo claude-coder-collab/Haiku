@@ -13,7 +13,10 @@ public class WebEntry {
     private static SudokuGenerator generator;
     private static SudokuSolver solver;
 
-    private static boolean isFish(SolutionType t) {
+    private static boolean isTarget(SolutionType t) {
+        if (t == SolutionType.XY_WING || t == SolutionType.XYZ_WING || t == SolutionType.W_WING) {
+            return true;
+        }
         String n = t.name();
         return !n.contains("KRAKEN") && (n.endsWith("X_WING") || n.endsWith("SWORDFISH") || n.endsWith("JELLYFISH"));
     }
@@ -52,7 +55,7 @@ public class WebEntry {
                 return "";
             }
             SolutionType t = step.getType();
-            if (isFish(t)) {
+            if (isTarget(t)) {
                 return t.name() + "\t" + clues + "\t" + step.toString(2);
             }
             if (!isEasy(t)) {
@@ -66,7 +69,7 @@ public class WebEntry {
     private static void init() {
         Options opt = Options.getInstance();
         for (StepConfig sc : opt.solverSteps) {
-            sc.setEnabled(isFish(sc.getType()) || isEasy(sc.getType()));
+            sc.setEnabled(isTarget(sc.getType()) || isEasy(sc.getType()));
         }
         generator = new SudokuGenerator();
         solver = SudokuSolverFactory.getInstance();
