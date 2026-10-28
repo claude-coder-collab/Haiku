@@ -14,8 +14,17 @@ public class WebEntry {
     private static SudokuSolver solver;
 
     private static boolean isTarget(SolutionType t) {
-        if (t == SolutionType.XY_WING || t == SolutionType.XYZ_WING || t == SolutionType.W_WING) {
-            return true;
+        switch (t) {
+            case XY_WING:
+            case XYZ_WING:
+            case W_WING:
+            case SKYSCRAPER:
+            case TWO_STRING_KITE:
+            case EMPTY_RECTANGLE:
+            case TURBOT_FISH:
+                return true;
+            default:
+                break;
         }
         String n = t.name();
         return !n.contains("KRAKEN") && (n.endsWith("X_WING") || n.endsWith("SWORDFISH") || n.endsWith("JELLYFISH"));
