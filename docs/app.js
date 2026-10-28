@@ -20,6 +20,13 @@ const WINGS = [
   { key: 'W_WING', label: 'W-Wing' }
 ];
 
+const TURBOT = [
+  { key: 'SKYSCRAPER', label: 'Skyscraper' },
+  { key: 'TWO_STRING_KITE', label: '2-String Kite' },
+  { key: 'EMPTY_RECTANGLE', label: 'Empty Rectangle' },
+  { key: 'TURBOT_FISH', label: 'Turbot Fish' }
+];
+
 const typeName = (variant, size) => variant.label + ' ' + size.label;
 const grid = document.getElementById('grid');
 const wingGrid = document.getElementById('wings');
@@ -64,21 +71,28 @@ for (const variant of VARIANTS) {
   grid.appendChild(tr);
 }
 
-const wingRow = document.createElement('tr');
-for (const wing of WINGS) {
-  const td = document.createElement('td');
-  const label = document.createElement('label');
-  label.className = 'cell';
-  const box = document.createElement('input');
-  box.type = 'checkbox';
-  box.dataset.type = wing.key;
-  box.dataset.name = wing.label;
-  label.appendChild(box);
-  label.appendChild(document.createTextNode(wing.label));
-  td.appendChild(label);
-  wingRow.appendChild(td);
+function addRows(table, items, perRow) {
+  for (let i = 0; i < items.length; i += perRow) {
+    const tr = document.createElement('tr');
+    for (const item of items.slice(i, i + perRow)) {
+      const td = document.createElement('td');
+      const label = document.createElement('label');
+      label.className = 'cell';
+      const box = document.createElement('input');
+      box.type = 'checkbox';
+      box.dataset.type = item.key;
+      box.dataset.name = item.label;
+      label.appendChild(box);
+      label.appendChild(document.createTextNode(item.label));
+      td.appendChild(label);
+      tr.appendChild(td);
+    }
+    table.appendChild(tr);
+  }
 }
-wingGrid.appendChild(wingRow);
+
+addRows(wingGrid, WINGS, 3);
+addRows(document.getElementById('turbot'), TURBOT, 4);
 
 const boxes = () => Array.from(document.querySelectorAll('table input[type=checkbox]'));
 document.getElementById('all').onclick = () => boxes().forEach(b => (b.checked = true));
