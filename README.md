@@ -4,6 +4,8 @@ Static page in `docs/` that generates Sudoku puzzles whose first advanced step i
 
 Live page: https://claude-coder-collab.github.io/Haiku/
 
+`docs/hinter.html` is a hinter: paste a puzzle and it lists every step HoDoKu can find (not only the easiest), grouped by technique, with the pattern, eliminations and chains drawn on the board. Steps can be applied with undo/redo, and puzzles can be rated. Kraken fish, forcing chains and forcing nets are optional because they are slow.
+
 ## How it works
 
 The generator and solver are HoDoKu 2.2.0 (https://hodoku.sourceforge.net/, GPLv3), compiled to WebAssembly GC with TeaVM. The page runs a pool of web workers that generate puzzles and keep those whose first fish, wing or turbot fish step matches a selected type.

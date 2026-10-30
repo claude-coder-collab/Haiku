@@ -84,6 +84,16 @@ public class WebEntry {
         solver = SudokuSolverFactory.getInstance();
     }
 
+    @JSExport
+    public static String findPhase(String values, String masks, int phase, boolean heavy) {
+        return Hinter.findPhase(values, masks, phase, heavy);
+    }
+
+    @JSExport
+    public static String rate(String values) {
+        return Hinter.rate(values);
+    }
+
     public static void main(String[] args) {
     }
 }
