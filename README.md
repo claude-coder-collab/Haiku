@@ -1,4 +1,4 @@
-# Hodoku Web: a Sudoku hinter in your browser
+# Hodoku Web: the HoDoKu Helper online.
 
 Paste a puzzle and the hinter lists the steps HoDoKu finds, grouped by technique. Each step shows its pattern, eliminations and chains drawn on the board. Apply steps one at a time or a whole group at once (for example all Singles), with undo and redo.
 
@@ -11,11 +11,10 @@ Live page: https://claude-coder-collab.github.io/Hodoku-Web/
 - Filter steps by technique group; apply any step, or apply all in a group.
 - Undo and redo.
 - Kraken fish, forcing chains and forcing nets are optional because they are slow.
-- Layout adapts to phones: once a puzzle is loaded, only the board and moves are shown.
 
 ## Generator
 
-The second page, https://claude-coder-collab.github.io/Hodoku-Web/generator.html, generates puzzles whose first advanced step is a chosen fish (X-Wing, Swordfish, Jellyfish; basic, finned, sashimi, Franken, finned Franken, mutant, finned mutant), wing (XY-Wing, XYZ-Wing, W-Wing) or turbot fish (Skyscraper, 2-String Kite, Empty Rectangle, Turbot Fish), and exports them as a text file. Paste them into the hinter to work through them.
+The second page, https://claude-coder-collab.github.io/Hodoku-Web/generator.html, generates puzzles whose first advanced step is the chosen technique (X-Wing, Swordfish, Jellyfish; basic, finned, sashimi, etc.), wing (XY-Wing, XYZ-Wing, W-Wing) or turbot fish (Skyscraper, 2-String Kite, etc.), and exports them as a text file.
 
 ## How it works
 
