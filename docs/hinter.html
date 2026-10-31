@@ -29,6 +29,14 @@ main.wide { max-width: 1100px; }
   #steps { max-height: none; overflow: visible; }
   .step { font-size: 0.85rem; }
 }
+@media (max-width: 860px) {
+  body.loaded nav, body.loaded h1, body.loaded .compact, body.loaded #explain, body.loaded .opts, body.loaded .filterrow, body.loaded .stepshead, body.loaded main > p.note { display: none; }
+  body.loaded main.wide { padding-top: 8px; }
+  body.loaded .boardcard { margin-bottom: 0; }
+  body.loaded .side > section { border: 0; padding: 0; background: none; }
+  body.loaded .side { gap: 0; }
+}
+.searching { padding: 8px 4px; color: var(--muted); font-size: 0.9rem; }
 @media (max-width: 860px) and (min-height: 780px) {
   .boardcard { position: sticky; }
 }
@@ -109,11 +117,11 @@ textarea { width: 100%; font: inherit; font-family: ui-monospace, Menlo, monospa
       </section>
 
       <section>
-        <h2>Available steps <span class="note" id="progress"></span></h2>
-        <div class="row" style="margin-bottom:8px">
+        <h2 class="stepshead">Available steps <span class="note" id="progress"></span></h2>
+        <div class="row opts" style="margin-bottom:8px">
           <label class="cell"><input id="heavy" type="checkbox"> Include slow searches (Kraken fish, forcing chains and nets)</label>
         </div>
-        <div class="row" style="margin-bottom:8px">
+        <div class="row filterrow" style="margin-bottom:8px">
           <input id="filter" type="search" placeholder="Filter, e.g. wing" style="flex:1;padding:8px;font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:6px">
         </div>
         <div id="steps"></div>

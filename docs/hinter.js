@@ -43,6 +43,7 @@ let selectedStep = -1;
 let worker = null;
 let runId = 0;
 let renderTimer = null;
+let searching = false;
 
 const clone = s => ({ values: s.values.slice(), given: s.given.slice(), masks: s.masks.slice() });
 
@@ -107,6 +108,7 @@ function startSearch() {
   if (worker) worker.terminate();
   steps = [];
   selectedStep = -1;
+  searching = false;
   renderSteps();
   if (!state) return;
   if (state.values.every(v => v)) {
@@ -116,16 +118,20 @@ function startSearch() {
   const id = runId;
   worker = new Worker('hinter-worker.js');
   progressEl.textContent = '(searching...)';
+  searching = true;
+  renderSteps();
   worker.onmessage = event => {
     if (id !== runId) return;
     const msg = event.data;
     if (msg.error) {
       progressEl.textContent = 'Error: ' + msg.error;
+      searching = false;
       worker.terminate();
       return;
     }
     if (msg.done) {
       progressEl.textContent = '(' + steps.length + ' found)';
+      searching = false;
       renderSteps();
       worker.terminate();
       worker = null;
@@ -168,6 +174,12 @@ function groupSteps() {
 
 function renderSteps() {
   stepsEl.innerHTML = '';
+  if (searching && !steps.length) {
+    const wait = document.createElement('div');
+    wait.className = 'searching';
+    wait.textContent = 'Searching...';
+    stepsEl.appendChild(wait);
+  }
   for (const g of groupSteps()) {
     const wrap = document.createElement('div');
     wrap.className = 'group';
@@ -326,6 +338,7 @@ function load(text) {
   }
   setState({ values: values.slice(), given: values.map(v => v > 0), masks: fullMasks(values) }, false);
   puzzlePanel.hidden = true;
+  document.body.classList.add('loaded');
 }
 
 board.addEventListener('click', e => {
