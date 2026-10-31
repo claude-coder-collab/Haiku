@@ -12,7 +12,6 @@ const redoBtn = document.getElementById('redo');
 const heavyEl = document.getElementById('heavy');
 const filterEl = document.getElementById('filter');
 const puzzlePanel = document.getElementById('puzzlePanel');
-const newPuzzleBtn = document.getElementById('newPuzzle');
 const pencilEl = document.getElementById('pencil');
 
 const row = i => Math.floor(i / 9);
@@ -327,7 +326,6 @@ function load(text) {
   }
   setState({ values: values.slice(), given: values.map(v => v > 0), masks: fullMasks(values) }, false);
   puzzlePanel.hidden = true;
-  newPuzzleBtn.hidden = false;
 }
 
 board.addEventListener('click', e => {
@@ -397,12 +395,6 @@ document.getElementById('refill').onclick = () => {
 document.getElementById('load').onclick = () => load(puzzleEl.value);
 heavyEl.onchange = () => startSearch();
 filterEl.oninput = () => renderSteps();
-
-newPuzzleBtn.onclick = () => {
-  puzzlePanel.hidden = false;
-  puzzleEl.focus();
-  puzzleEl.select();
-};
 
 const initial = new URLSearchParams(location.search).get('p');
 if (initial) {
