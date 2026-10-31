@@ -99,6 +99,52 @@ function applyStep(step) {
   setState(next, true);
 }
 
+const HOUSES = (() => {
+  const out = [];
+  for (let r = 0; r < 9; r++) out.push(Array.from({ length: 9 }, (_, c) => r * 9 + c));
+  for (let c = 0; c < 9; c++) out.push(Array.from({ length: 9 }, (_, r) => r * 9 + c));
+  for (let b = 0; b < 9; b++) {
+    out.push(Array.from({ length: 9 }, (_, k) => (Math.floor(b / 3) * 3 + Math.floor(k / 3)) * 9 + (b % 3) * 3 + (k % 3)));
+  }
+  return out;
+})();
+
+function solveSingles(s) {
+  let placed = 0;
+  let progress = true;
+  while (progress) {
+    progress = false;
+    for (let i = 0; i < 81; i++) {
+      const m = s.masks[i];
+      if (!s.values[i] && m && (m & (m - 1)) === 0) {
+        place(s, i, 32 - Math.clz32(m));
+        placed++;
+        progress = true;
+      }
+    }
+    for (const house of HOUSES) {
+      for (let d = 1; d <= 9; d++) {
+        const bit = 1 << (d - 1);
+        if (house.some(i => s.values[i] === d)) continue;
+        const cells = house.filter(i => !s.values[i] && s.masks[i] & bit);
+        if (cells.length === 1) {
+          place(s, cells[0], d);
+          placed++;
+          progress = true;
+        }
+      }
+    }
+  }
+  return placed;
+}
+
+function applyAllSingles() {
+  const next = clone(state);
+  if (!solveSingles(next)) return;
+  pushHistory();
+  setState(next, true);
+}
+
 function stepsFor(values, masks) {
   return { values: values.join(''), masks: masks.join(',') };
 }
@@ -188,6 +234,14 @@ function renderSteps() {
     head.innerHTML = '<div></div><span></span>';
     head.firstChild.textContent = g.cat || 'Other';
     head.lastChild.textContent = g.idxs.length;
+    if (g.cat === 'Singles') {
+      const all = document.createElement('button');
+      all.type = 'button';
+      all.className = 'applyall';
+      all.textContent = 'Apply all';
+      all.onclick = applyAllSingles;
+      head.insertBefore(all, head.lastChild);
+    }
     wrap.appendChild(head);
     for (const index of g.idxs) {
       const st = steps[index];
