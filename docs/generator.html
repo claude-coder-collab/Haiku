@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sudoku Technique Practice</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <nav><a href="./">Hinter</a><a class="here" href="generator.html">Generator</a></nav>
+  <h1>Sudoku Technique Practice</h1>
+  <p class="lead">Generates puzzles in your browser where the first technique beyond singles, locked candidates and subsets (among the fish, wings and turbot fish offered here) is one you pick. Runs the HoDoKu generator and solver locally; nothing is uploaded.</p>
+
+  <section>
+    <h2>Fish</h2>
+    <table id="grid"></table>
+    <h2 style="margin-top:18px">Wings</h2>
+    <table id="wings"></table>
+    <h2 style="margin-top:18px">Turbot fish</h2>
+    <table id="turbot"></table>
+    <div class="row" style="margin-top:12px">
+      <button id="all" type="button">Select all</button>
+      <button id="none" type="button">Clear</button>
+    </div>
+    <p class="note">Rarer techniques can take minutes. Mutant fish without fins are almost never the first step, so expect to stop early.</p>
+  </section>
+
+  <section>
+    <h2>Export</h2>
+    <div class="row">
+      <label>Puzzles <input id="count" type="number" min="1" max="500" value="20"></label>
+      <label class="cell"><input id="withAnswers" type="checkbox"> Include technique name and solution</label>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <button id="start" class="primary" type="button">Generate</button>
+      <button id="stop" type="button" disabled>Stop</button>
+      <button id="download" type="button" disabled>Download .txt</button>
+    </div>
+    <div class="status" id="status"></div>
+    <div class="bars" id="bars" style="margin-top:12px"></div>
+  </section>
+
+  <p class="note">Built from <a href="https://hodoku.sourceforge.net/">HoDoKu</a> 2.2.0 by Bernhard Hobiger (GPLv3), compiled to WebAssembly with <a href="https://teavm.org/">TeaVM</a>. Source and build scripts are in this repository.</p>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

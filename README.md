@@ -1,14 +1,27 @@
-# Haiku: Sudoku fish practice
+# Hodoku Web: a Sudoku hinter in your browser
 
-Static page in `docs/` that generates Sudoku puzzles whose first advanced step is a chosen fish (X-Wing, Swordfish, Jellyfish; basic, finned, sashimi, Franken, finned Franken, mutant, finned mutant), wing (XY-Wing, XYZ-Wing, W-Wing) or turbot fish (Skyscraper, 2-String Kite, Empty Rectangle, Turbot Fish) and exports them as a text file.
+Paste a puzzle and the hinter lists every step HoDoKu can find, not only the easiest one, grouped by technique. Each step shows its pattern, eliminations and chains drawn on the board. Apply steps one at a time or a whole group at once (for example all Singles), with undo and redo.
 
-Live page: https://claude-coder-collab.github.io/Haiku/
+Everything runs locally in your browser; nothing is uploaded.
 
-`docs/hinter.html` is a hinter: paste a puzzle and it lists every step HoDoKu can find (not only the easiest), grouped by technique, with the pattern, eliminations and chains drawn on the board. Steps can be applied with undo/redo. Kraken fish, forcing chains and forcing nets are optional because they are slow.
+Live page: https://claude-coder-collab.github.io/Hodoku-Web/
+
+## Hinter
+
+- Finds all available steps, with the technique named and explained.
+- Draws patterns, eliminations and chains on the board.
+- Filter steps by technique group; apply any step, or apply all in a group.
+- Undo and redo.
+- Kraken fish, forcing chains and forcing nets are optional because they are slow.
+- Layout adapts to phones: once a puzzle is loaded, only the board and moves are shown.
+
+## Generator
+
+The second page, https://claude-coder-collab.github.io/Hodoku-Web/generator.html, generates puzzles whose first advanced step is a chosen fish (X-Wing, Swordfish, Jellyfish; basic, finned, sashimi, Franken, finned Franken, mutant, finned mutant), wing (XY-Wing, XYZ-Wing, W-Wing) or turbot fish (Skyscraper, 2-String Kite, Empty Rectangle, Turbot Fish), and exports them as a text file. Paste them into the hinter to work through them.
 
 ## How it works
 
-The generator and solver are HoDoKu 2.2.0 (https://hodoku.sourceforge.net/, GPLv3), compiled to WebAssembly GC with TeaVM. The page runs a pool of web workers that generate puzzles and keep those whose first fish, wing or turbot fish step matches a selected type.
+The solver and generator are HoDoKu 2.2.0 (https://hodoku.sourceforge.net/, GPLv3), compiled to WebAssembly GC with TeaVM. Web workers run the hinter and the generator.
 
 ## Rebuilding
 
