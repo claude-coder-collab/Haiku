@@ -11,7 +11,7 @@ const undoBtn = document.getElementById('undo');
 const redoBtn = document.getElementById('redo');
 const heavyEl = document.getElementById('heavy');
 const filterEl = document.getElementById('filter');
-const ratingEl = document.getElementById('rating');
+const puzzlePanel = document.getElementById('puzzlePanel');
 const pencilEl = document.getElementById('pencil');
 
 const row = i => Math.floor(i / 9);
@@ -325,7 +325,7 @@ function load(text) {
     return;
   }
   setState({ values: values.slice(), given: values.map(v => v > 0), masks: fullMasks(values) }, false);
-  ratingEl.textContent = '';
+  puzzlePanel.hidden = true;
 }
 
 board.addEventListener('click', e => {
@@ -395,33 +395,6 @@ document.getElementById('refill').onclick = () => {
 document.getElementById('load').onclick = () => load(puzzleEl.value);
 heavyEl.onchange = () => startSearch();
 filterEl.oninput = () => renderSteps();
-
-document.getElementById('rate').onclick = () => {
-  if (!state) return;
-  ratingEl.textContent = 'Rating...';
-  const w = new Worker('hinter-worker.js');
-  const original = state.values.map((v, i) => (state.given[i] ? v : 0)).join('');
-  w.onmessage = event => {
-    w.terminate();
-    const r = event.data.rated;
-    if (!r || r.error) {
-      ratingEl.textContent = 'Could not rate: ' + (r ? r.error : 'unknown error');
-      return;
-    }
-    ratingEl.innerHTML = '';
-    const head = document.createElement('div');
-    head.textContent = (r.solved ? '' : 'Not fully solved by the default solver. ') + 'Level: ' + r.level + ', score: ' + r.score;
-    ratingEl.appendChild(head);
-    const ul = document.createElement('ul');
-    for (const [name, n] of r.steps) {
-      const li = document.createElement('li');
-      li.textContent = name + ' x' + n;
-      ul.appendChild(li);
-    }
-    ratingEl.appendChild(ul);
-  };
-  w.postMessage({ cmd: 'rate', values: original });
-};
 
 const initial = new URLSearchParams(location.search).get('p');
 if (initial) {
