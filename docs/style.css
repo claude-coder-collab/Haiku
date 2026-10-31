@@ -79,8 +79,12 @@ button:disabled { opacity: 0.5; cursor: default; }
 .note { color: var(--muted); font-size: 0.85rem; }
 .error { color: var(--warn); }
 @media (max-width: 520px) {
+  main { padding: 16px 10px 40px; }
+  section { padding: 12px; }
   .bar { grid-template-columns: 8em 1fr 4em; }
-  th, td { padding: 6px 2px; }
+  th, td { padding: 6px 1px; font-size: 0.85rem; }
+  table label.cell { flex-direction: column; padding: 4px 2px; gap: 2px; text-align: center; }
+  .tag { font-size: 0.68rem; }
 }
 
 nav { display: flex; gap: 16px; margin-bottom: 14px; font-size: 0.95rem; }

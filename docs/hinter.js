@@ -205,6 +205,7 @@ function selectStep(index) {
   drawBoard();
   applyBtn.disabled = selectedStep < 0;
   explainEl.textContent = selectedStep < 0 ? '' : steps[selectedStep].text;
+  if (selectedStep >= 0) document.querySelector('.boardcard').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 }
 
 function el(name, attrs, text) {
