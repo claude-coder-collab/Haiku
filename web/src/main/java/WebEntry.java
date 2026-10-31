@@ -89,11 +89,6 @@ public class WebEntry {
         return Hinter.findPhase(values, masks, phase, heavy);
     }
 
-    @JSExport
-    public static String rate(String values) {
-        return Hinter.rate(values);
-    }
-
     public static void main(String[] args) {
     }
 }

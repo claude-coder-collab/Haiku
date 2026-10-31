@@ -150,38 +150,6 @@ public class Hinter {
         return steps;
     }
 
-    public static String rate(String values) {
-        init();
-        try {
-            Sudoku2 s = new Sudoku2();
-            s.setSudoku(values);
-            SudokuSolver solver = SudokuSolverFactory.getInstance();
-            solver.setSudoku(s);
-            boolean solved = solver.solve();
-            java.util.LinkedHashMap<String, Integer> counts = new java.util.LinkedHashMap<String, Integer>();
-            for (SolutionStep st : solver.getSteps()) {
-                String n = st.getStepName();
-                Integer c = counts.get(n);
-                counts.put(n, c == null ? 1 : c + 1);
-            }
-            StringBuilder out = new StringBuilder("{\"solved\":").append(solved);
-            out.append(",\"level\":").append(quote(solver.getLevelString()));
-            out.append(",\"score\":").append(solver.getScore());
-            out.append(",\"steps\":[");
-            boolean first = true;
-            for (java.util.Map.Entry<String, Integer> e : counts.entrySet()) {
-                if (!first) {
-                    out.append(',');
-                }
-                first = false;
-                out.append('[').append(quote(e.getKey())).append(',').append(e.getValue()).append(']');
-            }
-            return out.append("]}").toString();
-        } catch (RuntimeException e) {
-            return "{\"error\":" + quote(String.valueOf(e)) + "}";
-        }
-    }
-
     public static String findPhase(String values, String masks, int phase, boolean heavy) {
         init();
         StringBuilder out = new StringBuilder();

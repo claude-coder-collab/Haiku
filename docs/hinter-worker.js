@@ -11,10 +11,6 @@ async function init() {
 onmessage = async event => {
   const msg = event.data;
   await init();
-  if (msg.cmd === 'rate') {
-    postMessage({ rated: JSON.parse(api.rate(msg.values)) });
-    return;
-  }
   for (let phase = 0; phase <= 26; phase++) {
     const result = JSON.parse(api.findPhase(msg.values, msg.masks, phase, msg.heavy));
     if (result.error) {
