@@ -1,8 +1,6 @@
 # Hodoku Web: a Sudoku hinter in your browser
 
-Paste a puzzle and the hinter lists every step HoDoKu can find, not only the easiest one, grouped by technique. Each step shows its pattern, eliminations and chains drawn on the board. Apply steps one at a time or a whole group at once (for example all Singles), with undo and redo.
-
-Everything runs locally in your browser; nothing is uploaded.
+Paste a puzzle and the hinter lists the steps HoDoKu finds, grouped by technique. Each step shows its pattern, eliminations and chains drawn on the board. Apply steps one at a time or a whole group at once (for example all Singles), with undo and redo.
 
 Live page: https://claude-coder-collab.github.io/Hodoku-Web/
 
