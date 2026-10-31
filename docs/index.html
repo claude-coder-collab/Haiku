@@ -41,7 +41,7 @@ main.wide { max-width: 1100px; }
   .boardcard { position: sticky; }
 }
 #board { width: 100%; height: auto; display: block; touch-action: manipulation; user-select: none; }
-#board text { font-family: inherit; }
+#board text, #board circle { font-family: inherit; pointer-events: none; }
 .cellbg { fill: var(--card); }
 .cellbg.sel { fill: rgba(31, 111, 235, 0.18); }
 .hl-idx { fill: rgba(240, 200, 60, 0.35); }
@@ -54,6 +54,13 @@ main.wide { max-width: 1100px; }
 .als3 { fill: rgba(240, 160, 60, 0.22); }
 .col0 { fill: rgba(60, 180, 90, 0.3); }
 .col1 { fill: rgba(240, 160, 60, 0.3); }
+.hl-digit { fill: rgba(240, 200, 60, 0.4); }
+.dot.dig { fill: rgba(240, 180, 30, 0.75); }
+.cand.dig { fill: var(--fg); font-weight: 700; }
+#digits { display: flex; gap: 4px; margin-top: 10px; }
+#digits button { flex: 1; padding: 6px 0; }
+#digits button.on { background: rgba(240, 200, 60, 0.5); }
+@media (max-width: 860px) { #digits { display: none; } }
 .val { fill: var(--fg); font-size: 34px; text-anchor: middle; dominant-baseline: central; }
 .val.user { fill: var(--accent); }
 .val.setv { fill: #1f9d4d; font-weight: 700; }
@@ -98,6 +105,7 @@ textarea { width: 100%; font: inherit; font-family: ui-monospace, Menlo, monospa
   <div class="layout">
     <section class="boardcard">
       <svg id="board" viewBox="0 0 504 504" aria-label="Sudoku board"></svg>
+      <div id="digits" aria-label="Highlight digit"><button type="button">1</button><button type="button">2</button><button type="button">3</button><button type="button">4</button><button type="button">5</button><button type="button">6</button><button type="button">7</button><button type="button">8</button><button type="button">9</button></div>
       <p class="explain" id="explain"></p>
       <div class="compact">
         <button id="apply" class="primary" type="button" disabled>Apply</button>

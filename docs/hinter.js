@@ -13,6 +13,11 @@ const heavyEl = document.getElementById('heavy');
 const filterEl = document.getElementById('filter');
 const puzzlePanel = document.getElementById('puzzlePanel');
 const pencilEl = document.getElementById('pencil');
+const digitBtns = Array.from(document.querySelectorAll('#digits button'));
+digitBtns.forEach((b, k) => b.addEventListener('click', () => {
+  highlightDigit = highlightDigit === k + 1 ? 0 : k + 1;
+  drawBoard();
+}));
 
 const row = i => Math.floor(i / 9);
 const col = i => i % 9;
@@ -40,6 +45,7 @@ let redoStack = [];
 let selectedCell = -1;
 let steps = [];
 let selectedStep = -1;
+let highlightDigit = 0;
 let worker = null;
 let runId = 0;
 let renderTimer = null;
@@ -338,6 +344,8 @@ function drawBoard() {
   board.innerHTML = '';
   const step = selectedStep >= 0 ? steps[selectedStep] : null;
   const h = highlightsFor(step);
+  const hd = step ? 0 : highlightDigit;
+  digitBtns.forEach((b, k) => b.classList.toggle('on', k + 1 === highlightDigit));
   for (let i = 0; i < 81; i++) {
     const x = OFFSET + col(i) * CELL;
     const y = OFFSET + row(i) * CELL;
@@ -345,6 +353,7 @@ function drawBoard() {
     g.appendChild(el('rect', { x, y, width: CELL, height: CELL, class: 'cellbg' + (i === selectedCell ? ' sel' : '') }));
     for (const cls of h.cellCls[i]) g.appendChild(el('rect', { x, y, width: CELL, height: CELL, class: cls }));
     if (h.setCell.has(i)) g.appendChild(el('rect', { x, y, width: CELL, height: CELL, class: 'hl-set' }));
+    if (hd && state.values[i] === hd) g.appendChild(el('rect', { x, y, width: CELL, height: CELL, class: 'hl-digit' }));
     board.appendChild(g);
   }
   for (let k = 0; k <= 9; k++) {
@@ -368,8 +377,10 @@ function drawBoard() {
         const role = h.role.get(i * 10 + d);
         if (!present && !role) continue;
         const [px, py] = candCenter(i, d);
+        const lit = hd === d && present;
         if (role) board.appendChild(el('circle', { cx: px, cy: py, r: 8.5, class: 'dot ' + role }));
-        board.appendChild(el('text', { x: px, y: py, class: 'cand' + (role ? ' ' + role : '') }, String(d)));
+        else if (lit) board.appendChild(el('circle', { cx: px, cy: py, r: 8.5, class: 'dot dig' }));
+        board.appendChild(el('text', { x: px, y: py, class: 'cand' + (role ? ' ' + role : lit ? ' dig' : '') }, String(d)));
       }
     }
   }
@@ -399,6 +410,8 @@ board.addEventListener('click', e => {
   const g = e.target.closest('[data-cell]');
   if (!g) return;
   selectedCell = Number(g.getAttribute('data-cell'));
+  const v = state && state.values[selectedCell];
+  if (v) highlightDigit = highlightDigit === v ? 0 : v;
   drawBoard();
 });
 
