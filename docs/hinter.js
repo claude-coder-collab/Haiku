@@ -208,6 +208,23 @@ function scheduleRender() {
   }, 120);
 }
 
+const FOLD_KEY = 'hinter.folded';
+const folded = new Set((() => {
+  try {
+    return JSON.parse(localStorage.getItem(FOLD_KEY) || '[]');
+  } catch {
+    return [];
+  }
+})());
+
+function toggleFold(cat) {
+  if (!folded.delete(cat)) folded.add(cat);
+  try {
+    localStorage.setItem(FOLD_KEY, JSON.stringify(Array.from(folded)));
+  } catch {}
+  renderSteps();
+}
+
 function groupSteps() {
   const filter = filterEl.value.trim().toLowerCase();
   const groups = new Map();
@@ -238,17 +255,36 @@ function renderSteps() {
     const head = document.createElement('div');
     head.className = 'ghead';
     head.innerHTML = '<div></div><span></span>';
-    head.firstChild.textContent = g.cat || 'Other';
+    const key = g.cat || 'Other';
+    const isFolded = folded.has(key);
+    head.firstChild.textContent = (isFolded ? '\u25B8 ' : '\u25BE ') + key;
+    head.setAttribute('role', 'button');
+    head.setAttribute('aria-expanded', String(!isFolded));
+    head.tabIndex = 0;
+    head.onclick = () => toggleFold(key);
+    head.onkeydown = e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleFold(key);
+      }
+    };
     head.lastChild.textContent = g.idxs.length;
     if (g.cat === 'Singles') {
       const all = document.createElement('button');
       all.type = 'button';
       all.className = 'applyall';
       all.textContent = 'Apply all';
-      all.onclick = applyAllSingles;
+      all.onclick = e => {
+        e.stopPropagation();
+        applyAllSingles();
+      };
       head.insertBefore(all, head.lastChild);
     }
     wrap.appendChild(head);
+    if (isFolded) {
+      stepsEl.appendChild(wrap);
+      continue;
+    }
     for (const index of g.idxs) {
       const st = steps[index];
       const el = document.createElement('div');
